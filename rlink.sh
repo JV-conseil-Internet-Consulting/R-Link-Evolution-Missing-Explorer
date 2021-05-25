@@ -129,7 +129,8 @@ __rlink_init_loopback_devs () {
 __rlink_remove_loopback_devs () {
 
     echo "Removing all loopback devices."
-    sudo losetup -d "${LOOPBACK_DEV_LIST}"
+    # shellcheck disable=SC2086
+    sudo losetup -d $LOOPBACK_DEV_LIST
     if [[ $? -ne 0 ]]
     then
         __rlink_echoerr "Error while removing one or multiple loopback devices. Please check with losetp and dmesg."
