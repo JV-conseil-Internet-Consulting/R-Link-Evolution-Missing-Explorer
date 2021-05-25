@@ -181,8 +181,8 @@ __press_enter_to_continue () {
     # echo "Please press return to finish :"
     # read -r dummy
     # shellcheck disable=SC2162
-    read -p "Please press enter to continue"
-    echo "Thank you"
+    read -p "Please press enter to continue:"
+    echo "Thank you."
     return 0
 
 }
@@ -197,7 +197,7 @@ __rlink_mount_vfs () {
     then
         echo "Mountpoint already in use. Cancel."
     else
-        echo "Creating mount point and mount tomtom filesystem"
+        echo "Creating mount point and mount tomtom filesystem."
         sudo mkdir -p /mnt/tomtom_vfs 2>/dev/null
         sudo mount /dev/md/tomtom_vfs /mnt/tomtom_vfs
         if [[ $? -eq 0 ]]
@@ -209,7 +209,7 @@ __rlink_mount_vfs () {
             # bind to 
             mkdir -p "$HOME/tomtom_vfs"
             sudo bindfs -u "$USER" -g "${current_group}" --create-for-user="${vfs_user}" --create-for-group="${vfs_group}" /mnt/tomtom_vfs/ "$HOME/tomtom_vfs"
-            echo "Filesystem is now available in /mnt/tomtom_vfs as root and $HOME/tomtom_vfs as $USER"
+            echo "Filesystem is now available in /mnt/tomtom_vfs as root and $HOME/tomtom_vfs as $USER."
             sleep 1
         else
             __rlink_echoerr "Something is wrong. Corrupted files ? Trying to cancel."
@@ -229,7 +229,7 @@ __rlink_umount_vfs () {
     mount | grep "on /mnt/tomtom_vfs " >/dev/null 2>&1
     if [[ $? -ne 0 ]]
     then
-        echo "Nothing to do, /mnt/tomtom_vfs Not mounted"
+        echo "Nothing to do, /mnt/tomtom_vfs Not mounted."
         return 0
     fi
 
@@ -246,18 +246,18 @@ __rlink_umount_vfs () {
     if [[ ${fuserkill} -eq 1 ]]
     then
         # Killing local users
-        echo "Killing remaining processus using the mountpoints"
+        echo "Killing remaining processus using the mountpoints."
         sudo fuser -k "$HOME/tomtom_vfs"
 
         # First kill everything that is related to the mountpoint
         sudo fuser -k /mnt/tomtom_vfs
 
-        echo "Waiting 5 seconds"
+        echo "Waiting 5 seconds."
         sleep 5
     fi
 
     # Then, umount
-    echo "Unmounting tomtom filesystem and remove mount point"
+    echo "Unmounting tomtom filesystem and remove mount point."
     sudo fusermount -u "$HOME/tomtom_vfs"
     sudo umount /mnt/tomtom_vfs
     if [[ $? -ne 0 ]]
@@ -276,7 +276,7 @@ __rlink_open_default_file_manager () {
 
     if xhost >& /dev/null
     then 
-        echo "Launching default file manager"
+        echo "Launching default file manager."
         xdg-open "$HOME/tomtom_vfs"
     fi
     return 0
@@ -363,7 +363,7 @@ else
                     ;;
 
                 \?) # incorrect option
-                    __rlink_echoerr "Error: Invalid option"
+                    __rlink_echoerr "Error: Invalid option."
                     __rlink_help
                     ;;
             esac

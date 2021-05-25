@@ -58,8 +58,8 @@ __press_enter_to_continue () {
     # echo "Please press return to finish :"
     # read -r dummy
     # shellcheck disable=SC2162
-    read -p "Please press enter to continue"
-    echo "Thank you"
+    read -p "Please press enter to continue:"
+    echo "Thank you."
     return 0
 
 }
@@ -83,7 +83,7 @@ __virtualbox_brew () {
 
 __virtualbox_kill_apps () {
 
-    echo "Quiting opened apps that should not run during this procedure"
+    echo "Quitting opened apps that should not run during this procedure."
     pkill -x VirtualBox RLinkToolbox
 
 }
@@ -112,17 +112,17 @@ __virtualbox_sdcard () {
             sudo diskutil unmountDisk "${__disk}"
         }
 
-        echo "You have selected ${__disk}."
+        echo "You have selected: ${__disk}."
         sudo chown "$USER" "${__disk}"
         sudo chmod 777 "${__disk}"
 
         if [[ -f "${__sdcard}" ]]
         then
-            echo "Removing previous VDMK file ${__sdcard}"
+            echo "Removing previous VDMK file: ${__sdcard}."
             rm "${__sdcard}"
         
         else
-            echo "No previous ${__sdcard} found to delete"
+            echo "No previous ${__sdcard} found to delete."
 
         fi
 
@@ -140,17 +140,17 @@ __virtualbox_sdcard () {
         then
             __config_file="Ubuntu.vbox"
 
-            echo "Copying uuid value to clipboard"
+            echo "Copying uuid value to clipboard: ${__uuid}."
             echo "${__uuid}" | tr -d '\n' | pbcopy
 
-            echo "Opening ${__config_file} in TextEdit"
+            echo "Opening ${__config_file} in TextEdit."
             open -a TextEdit "${__config_file}"
 
             echo "In TextEdit look for these two lines:"
             printf '\t- %s\n' '<HardDisk uuid="{e19b7ecb-3193-4f9b-98ad-d6a0d56ad436}" location="SDcard.vmdk" format="VMDK" type="Normal"/>'
             printf '\t- %s\n' '<AttachedDevice type="HardDisk" hotpluggable="true" port="1" device="0"><Image uuid="{e19b7ecb-3193-4f9b-98ad-d6a0d56ad436}"/></AttachedDevice>'
-            echo "Replace the uuid value by: ${__uuid}"
-            echo "Save & Quit TextEdit"
+            echo "Replace the uuid value by: ${__uuid}."
+            echo "Save & Quit TextEdit."
             __unmount
 
             __press_enter_to_continue
@@ -202,7 +202,7 @@ vbox () {
                 ;;
 
             \?) # incorrect option
-                echo "Error: Invalid option"
+                echo "Error: Invalid option."
                 exit 1;;
         esac
         done

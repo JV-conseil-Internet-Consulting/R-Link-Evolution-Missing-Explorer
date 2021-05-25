@@ -25,8 +25,19 @@ To start assembling your TOMTOM.xxx files enter the following line in Terminal o
 bash ./rlink.sh
 ````
 
+In case VirtualBox does not recognize your SD card on your Mac, you may want to use `virtualbox.sh` command lines by sourcing them first:
+
+```bash
+source "$HOME/virtualbox.sh"
+```
+
+then call `vbox` command to follow the procedure to link your SD card to your Ubuntu VM on VirtualBox.
+
 ## Requirements
 
-- VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for enterprise as well as home use: https://www.virtualbox.org
-- VirtualBox 6.1.22 Oracle VM VirtualBox Extension Pack: https://www.virtualbox.org/wiki/Downloads
-- Ubuntu Desktop 20.04.2.0 LTS (LTS stands for long-term support — which means five years, until April 2025, of free security and maintenance updates, guaranteed): https://ubuntu.com/download/desktop
+- VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for enterprise as well as home use:
+https://www.virtualbox.org
+- VirtualBox 6.1.22 Oracle VM VirtualBox Extension Pack:
+https://www.virtualbox.org/wiki/Downloads
+- Ubuntu Desktop 20.04.2.0 LTS (LTS stands for long-term support — which means five years, until April 2025, of free security and maintenance updates, guaranteed):
+https://ubuntu.com/download/desktop
