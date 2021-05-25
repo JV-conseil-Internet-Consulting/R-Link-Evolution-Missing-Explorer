@@ -41,3 +41,8 @@ https://www.virtualbox.org
 https://www.virtualbox.org/wiki/Downloads
 - Ubuntu Desktop 20.04.2.0 LTS (LTS stands for long-term support — which means five years, until April 2025, of free security and maintenance updates, guaranteed):
 https://ubuntu.com/download/desktop
+
+## Example
+
+![R-Link Evolution Missing Explorer on Ubuntu through VirtualBox VW on Mac](https://user-images.githubusercontent.com/8126807/119517690-20443c00-bd78-11eb-9b78-1933cf93d576.png)
+R-Link Evolution Missing Explorer on Ubuntu through VirtualBox VW on Mac.
