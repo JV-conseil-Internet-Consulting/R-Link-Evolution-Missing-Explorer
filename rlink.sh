@@ -1,5 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # shellcheck disable=SC2044,SC2181
+#
+# title         : rlink.sh
+# description   : A shell script to mount TOMTOM.xxx files from a TomTom 
+#                 SD card to browse/modify its content.
+# author        : JV conseil – Internet Consulting
+# credits       : JV-conseil
+# licence       : BSD 3-Clause License.
+# copyright     : Copyright (c) 2021, JV conseil – Internet Consulting,
+#                 All rights reserved.
+# usage         : bash ./rlink.sh
+# requirements  : VirtualBox, VM VirtualBox Extension Pack and one Linux 
+#                 distribution like Ubuntu.
+# date          : 20210525
+# version       : 1.0
+# bash_version  : 5.1.8(1)-release
+#
+#===============================================================================
+
 
 __TOMTOM_PATH="./"
 
@@ -10,7 +28,15 @@ __rlink_help () {
 R-Link Evolution Missing Explorer
 ---------------------------------
 
-Place this file in the same folder where your TOMTOM.000 ... files are.
+Place this file in the same folder where your TOMTOM.000 ... files are, ideally 
+on the SD card:
+
+/Volumes/SDCARD
+├── TOMTOM.000
+├── TOMTOM.001
+├── TOMTOM.002
+├── TOMTOM.003
+└── rlink.sh
 
 options:
 h   Help.

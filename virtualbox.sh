@@ -1,5 +1,20 @@
-#!/usr/bin/env bash
-# -*- coding: UTF-8 -*-
+#!/bin/bash
+#
+# title         : virtualbox.sh
+# description   : VirtualBox v6.1 Extra Ressources.
+# author        : JV conseil – Internet Consulting
+# credits       : JV-conseil
+# licence       : BSD 3-Clause License.
+# copyright     : Copyright (c) 2021, JV conseil – Internet Consulting,
+#                 All rights reserved.
+# usage         : vbox
+# requirements  : VirtualBox, VM VirtualBox Extension Pack and one Linux 
+#                 distribution like Ubuntu.
+# date          : 20210525
+# version       : 1.0
+# bash_version  : 5.1.8(1)-release
+#
+#===============================================================================
 
 __VIRTUALBOX_PATH="$HOME/VirtualBox/Ubuntu"
 
@@ -26,6 +41,9 @@ c       Check your installation.
 s       Create a Virtual Machine VMDK for your SD card.
 l       Launch RLinkToolbox.
 h       Help.
+
+usage:
+source "$HOME/virtualbox.sh"
 
 Your VirtualBox VM path:
 ${__VIRTUALBOX_PATH}

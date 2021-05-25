@@ -28,4 +28,5 @@ bash ./rlink.sh
 ## Requirements
 
 - VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for enterprise as well as home use: https://www.virtualbox.org
+- VirtualBox 6.1.22 Oracle VM VirtualBox Extension Pack: https://www.virtualbox.org/wiki/Downloads
 - Ubuntu Desktop 20.04.2.0 LTS (LTS stands for long-term support — which means five years, until April 2025, of free security and maintenance updates, guaranteed): https://ubuntu.com/download/desktop
