@@ -34,6 +34,19 @@ EOF
 }
 
 
+# wait for a carriage return
+__press_enter_to_continue () {
+
+    # echo "Please press return to finish :"
+    # read -r dummy
+    # shellcheck disable=SC2162
+    read -p "Please press enter to continue"
+    echo "Thank you"
+    return 0
+
+}
+
+
 __virtualbox_brew () {
 
     __brew_pkg=("virtualbox" "virtualbox-extension-pack")
@@ -52,9 +65,7 @@ __virtualbox_brew () {
 
 __virtualbox_kill_apps () {
 
-    echo
-    echo "VirtualBox should not run during this procedure."
-    echo
+    echo "Quiting opened apps that should not run during this procedure"
     pkill -x VirtualBox RLinkToolbox
 
 }
@@ -73,7 +84,7 @@ __virtualbox_sdcard () {
     sudo diskutil list
 
     echo
-    read -p "Enter the correct disk number /dev/disk[0-9] " -n 1 -r
+    read -p "Enter the correct disk number /dev/disk[0-9]: " -n 1 -r
     echo
     if [[ $REPLY =~ ^[0-9]$ ]]
     then
@@ -83,17 +94,17 @@ __virtualbox_sdcard () {
             sudo diskutil unmountDisk "${__disk}"
         }
 
-        echo "You have selected ${__disk}"
+        echo "You have selected ${__disk}."
         sudo chown "$USER" "${__disk}"
         sudo chmod 777 "${__disk}"
 
         if [[ -f "${__sdcard}" ]]
         then
-            echo "Removing previous VDMK."
+            echo "Removing previous VDMK file ${__sdcard}"
             rm "${__sdcard}"
         
         else
-            echo "No previous ${__sdcard} found to delete."
+            echo "No previous ${__sdcard} found to delete"
 
         fi
 
@@ -109,19 +120,23 @@ __virtualbox_sdcard () {
         __uuid=$(grep -Eo 'ddb.uuid.image="[a-z0-9\-]+"' "${__sdcard}" | sed -E 's/ddb.uuid.image="([a-z0-9\-]+)"/\1/')
         if [[ "${__uuid}" ]]
         then
-            open -a TextEdit "Ubuntu.vbox"
-            echo
-            echo "In TextEdit look for this line:"
-            echo '<HardDisk uuid="{e19b7ecb-3193-4f9b-98ad-d6a0d56ad436}" location="SDcard.vmdk" format="VMDK" type="Normal"/>'
-            echo
-            echo "And this second line:"
-            echo '<AttachedDevice type="HardDisk" hotpluggable="true" port="1" device="0"><Image uuid="{e19b7ecb-3193-4f9b-98ad-d6a0d56ad436}"/></AttachedDevice>'
-            echo
-            echo "Replace the uuid value by: $__uuid"
-            echo 
-            echo "Save & Quit"
-            echo
+            __config_file="Ubuntu.vbox"
+
+            echo "Copying uuid value to clipboard"
+            echo "${__uuid}" | tr -d '\n' | pbcopy
+
+            echo "Opening ${__config_file} in TextEdit"
+            open -a TextEdit "${__config_file}"
+
+            echo "In TextEdit look for these two lines:"
+            printf '\t- %s\n' '<HardDisk uuid="{e19b7ecb-3193-4f9b-98ad-d6a0d56ad436}" location="SDcard.vmdk" format="VMDK" type="Normal"/>'
+            printf '\t- %s\n' '<AttachedDevice type="HardDisk" hotpluggable="true" port="1" device="0"><Image uuid="{e19b7ecb-3193-4f9b-98ad-d6a0d56ad436}"/></AttachedDevice>'
+            echo "Replace the uuid value by: ${__uuid}"
+            echo "Save & Quit TextEdit"
             __unmount
+
+            __press_enter_to_continue
+            open -a VirtualBox
         fi
 
     else
@@ -136,6 +151,7 @@ vbox () {
 
     if [[ -z "$1" ]]
     then
+        __virtualbox_help
         echo
         read -p "Do you want to create a VMDK for your SD card? [y/N] " -n 1 -r
         echo

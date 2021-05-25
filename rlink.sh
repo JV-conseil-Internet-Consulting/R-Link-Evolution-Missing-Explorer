@@ -43,7 +43,7 @@ __rlink_loopback_dev () {
     do
         losetup /dev/loop${num} >/dev/null 2>&1 
         [[ $? -ne 0 ]] && break
-        num=$(num + 1)
+        num=$((num + 2))
     done
 
     echo "/dev/loop${num}"
@@ -119,7 +119,8 @@ __rlink_build_linear_raid () {
 
     echo "Build linear raid device."
     COMMAND="mdadm --build --auto=part --verbose /dev/md/tomtom_vfs --rounding=32 --level=linear -n${COUNT_VFS_FILES} ${LOOPBACK_DEV_LIST}"
-    sudo "${COMMAND}"
+    # shellcheck disable=SC2086
+    sudo $COMMAND
     # if [[ $1 -ne 0 ]]
     if [[ $? -ne 0 ]]
     then
@@ -149,11 +150,13 @@ __rlink_delete_linear_raid () {
 
 
 # wait for a carriage return
-__rlink_wait_for_return () {
+__press_enter_to_continue () {
 
-    echo "Please press return to finish :"
-    read -r dummy
-    echo "Thank you."
+    # echo "Please press return to finish :"
+    # read -r dummy
+    # shellcheck disable=SC2162
+    read -p "Please press enter to continue"
+    echo "Thank you"
     return 0
 
 }
@@ -168,7 +171,7 @@ __rlink_mount_vfs () {
     then
         echo "Mountpoint already in use. Cancel."
     else
-        echo "Creating mount point and mount tomtom filesystem."
+        echo "Creating mount point and mount tomtom filesystem"
         sudo mkdir -p /mnt/tomtom_vfs 2>/dev/null
         sudo mount /dev/md/tomtom_vfs /mnt/tomtom_vfs
         if [[ $? -eq 0 ]]
@@ -200,7 +203,7 @@ __rlink_umount_vfs () {
     mount | grep "on /mnt/tomtom_vfs " >/dev/null 2>&1
     if [[ $? -ne 0 ]]
     then
-        echo "Nothing to do, /mnt/tomtom_vfs Not mounted."
+        echo "Nothing to do, /mnt/tomtom_vfs Not mounted"
         return 0
     fi
 
@@ -217,18 +220,18 @@ __rlink_umount_vfs () {
     if [[ ${fuserkill} -eq 1 ]]
     then
         # Killing local users
-        echo "Killing remaining processus using the mountpoints."
+        echo "Killing remaining processus using the mountpoints"
         sudo fuser -k "$HOME/tomtom_vfs"
 
         # First kill everything that is related to the mountpoint
         sudo fuser -k /mnt/tomtom_vfs
 
-        echo "Waiting 5 seconds."
+        echo "Waiting 5 seconds"
         sleep 5
     fi
 
     # Then, umount
-    echo "Unmounting tomtom filesystem and remove mount point."
+    echo "Unmounting tomtom filesystem and remove mount point"
     sudo fusermount -u "$HOME/tomtom_vfs"
     sudo umount /mnt/tomtom_vfs
     if [[ $? -ne 0 ]]
@@ -247,7 +250,7 @@ __rlink_open_default_file_manager () {
 
     if xhost >& /dev/null
     then 
-        echo "Display exists. Starting default file manager."
+        echo "Launching default file manager"
         xdg-open "$HOME/tomtom_vfs"
     fi
     return 0
@@ -303,7 +306,7 @@ rlink () {
     __rlink_mount_vfs
     __rlink_search_cards
     __rlink_open_default_file_manager
-    __rlink_wait_for_return
+    __press_enter_to_continue
     __rlink_umount_vfs
     __rlink_delete_linear_raid
     __rlink_remove_loopback_devs
