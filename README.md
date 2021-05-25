@@ -44,5 +44,5 @@ https://ubuntu.com/download/desktop
 
 ## Example
 
-![R-Link Evolution Missing Explorer on Ubuntu through VirtualBox VW on Mac](https://user-images.githubusercontent.com/8126807/119517690-20443c00-bd78-11eb-9b78-1933cf93d576.png)
-R-Link Evolution Missing Explorer on Ubuntu through VirtualBox VW on Mac.
+![R-Link Evolution Missing Explorer on Ubuntu through VirtualBox VM on Mac](https://user-images.githubusercontent.com/8126807/119517690-20443c00-bd78-11eb-9b78-1933cf93d576.png)
+R-Link Evolution Missing Explorer on Ubuntu through VirtualBox VM on Mac.
