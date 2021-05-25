@@ -5,3 +5,13 @@
 [![Follow JV conseil – Internet Consulting on Twitter](https://img.shields.io/twitter/follow/JVconseil.svg?style=social&logo=twitter)](https://twitter.com/JVconseil)
 
 A shell script to mount TOMTOM.xxx files from a Tomtom sdcard, so we can modify the content.
+
+## Installation
+
+Place this file in the same folder where your TOMTOM.000 ... files are.
+
+To start assembling your TOMTOM.xxx files enter the following line in Terminal on Ubuntu:
+
+```bash
+bash ./rlink.sh
+````
