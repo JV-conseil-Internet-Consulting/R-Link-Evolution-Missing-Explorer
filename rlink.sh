@@ -1,5 +1,4 @@
 #!/bin/bash
-# shellcheck disable=SC2044,SC2181
 #
 # title         : rlink.sh
 # description   : A shell script to mount TOMTOM.xxx files from a TomTom 
@@ -67,8 +66,10 @@ __rlink_loopback_dev () {
     num=0
     while [[ ${num} -le 255 ]]
     do
-        losetup /dev/loop${num} >/dev/null 2>&1 
-        [[ $? -ne 0 ]] && break
+        if ! losetup /dev/loop${num} >/dev/null 2>&1
+        then
+            break
+        fi
         num=$((num + 2))
     done
 
@@ -111,8 +112,7 @@ __rlink_init_loopback_devs () {
         LOOPBACK_DEV_LIST="${LOOPBACK_DEV_LIST} ${LOOPBACK_DEV}"
 
         # associate file to loopback device
-        sudo losetup "${LOOPBACK_DEV}" "${VFS_FILE}"
-        if [[ $? -ne 0 ]]
+        if ! sudo losetup "${LOOPBACK_DEV}" "${VFS_FILE}"
         then
             __rlink_echoerr "Error while creating loopback device ${LOOPBACK_DEV} from ${VFS_FILE}. Cancel."
             __rlink_remove_loopback_devs
@@ -130,8 +130,7 @@ __rlink_remove_loopback_devs () {
 
     echo "Removing all loopback devices."
     # shellcheck disable=SC2086
-    sudo losetup -d $LOOPBACK_DEV_LIST
-    if [[ $? -ne 0 ]]
+    if ! sudo losetup -d $LOOPBACK_DEV_LIST
     then
         __rlink_echoerr "Error while removing one or multiple loopback devices. Please check with losetp and dmesg."
         exit 1
@@ -147,9 +146,7 @@ __rlink_build_linear_raid () {
     echo "Build linear raid device."
     COMMAND="mdadm --build --auto=part --verbose /dev/md/tomtom_vfs --rounding=32 --level=linear -n${COUNT_VFS_FILES} ${LOOPBACK_DEV_LIST}"
     # shellcheck disable=SC2086
-    sudo $COMMAND
-    # if [[ $1 -ne 0 ]]
-    if [[ $? -ne 0 ]]
+    if ! sudo $COMMAND
     then
         __rlink_echoerr "Error during raid device creation. Trying to cancel. Check /proc/mdstat, mdadm and dmesg."
         __rlink_remove_loopback_devs
@@ -164,9 +161,7 @@ __rlink_build_linear_raid () {
 __rlink_delete_linear_raid () {
 
     echo "Stopping linear raid device."
-    sudo mdadm -S /dev/md/tomtom_vfs
-    # if [[ $1 -ne 0 ]]
-    if [[ $? -ne 0 ]]
+    if ! sudo mdadm -S /dev/md/tomtom_vfs
     then
         __rlink_echoerr "Error during raid device deletion. Please check /proc/mdstat, mdadm and dmesg. Loopback devices won't be removed."
         exit 1
@@ -179,8 +174,6 @@ __rlink_delete_linear_raid () {
 # wait for a carriage return
 __press_enter_to_continue () {
 
-    # echo "Please press return to finish :"
-    # read -r dummy
     # shellcheck disable=SC2162
     read -p "Please press enter to continue:"
     echo "Thank you."
@@ -194,6 +187,7 @@ __rlink_mount_vfs () {
 
     # Ensure it's not already mounted
     mount | grep "on /mnt/tomtom_vfs " >/dev/null 2>&1
+    # shellcheck disable=SC2181
     if [[ $? -eq 0 ]]
     then
         echo "Mountpoint already in use. Cancel."
@@ -226,8 +220,10 @@ __rlink_mount_vfs () {
 
 # unmount /mnt/tomtom_vfs (TOMTOM.xxx linear raid ext3 filesystem)
 __rlink_umount_vfs () {
+
     # Ensure it's mounted
     mount | grep "on /mnt/tomtom_vfs " >/dev/null 2>&1
+    # shellcheck disable=SC2181
     if [[ $? -ne 0 ]]
     then
         echo "Nothing to do, /mnt/tomtom_vfs Not mounted."
@@ -260,8 +256,7 @@ __rlink_umount_vfs () {
     # Then, umount
     echo "Unmounting tomtom filesystem and remove mount point."
     sudo fusermount -u "$HOME/tomtom_vfs"
-    sudo umount /mnt/tomtom_vfs
-    if [[ $? -ne 0 ]]
+    if ! sudo umount /mnt/tomtom_vfs
     then
         __rlink_echoerr "Cannot unmount /mnt/tomtom_vfs. Please check dmesg, fuser and dmesg. raid and loopback devices left untouched."
         exit 1
@@ -269,6 +264,7 @@ __rlink_umount_vfs () {
     sudo rmdir /mnt/tomtom_vfs
     sudo rmdir "$HOME/tomtom_vfs"
     return 0
+
 }
 
 
@@ -292,8 +288,7 @@ __rlink_check_prerequires () {
     PREREQUIRES="mdadm losetup bindfs"
     for prerequire in $PREREQUIRES
     do
-        which "$prerequire" >/dev/null 2>&1
-        if [[ $? -ne 0 ]]
+        if ! which "$prerequire" >/dev/null 2>&1
         then
             __rlink_echoerr "$prerequire command is missing."
             echo "Please install it (the method depends of your Linux distribution)."
@@ -310,11 +305,14 @@ __rlink_search_cards () {
 
     typeset -i COUNT_CARDS
     COUNT_CARDS=0
+
+    # shellcheck disable=SC2044
     for card in $(find "$HOME/tomtom_vfs" -name "*.pna")
     do
         echo "Found $card card."
         COUNT_CARDS+=1
     done
+
     echo "Found ${COUNT_CARDS} card(s)."
     return 0
 
@@ -323,8 +321,10 @@ __rlink_search_cards () {
 
 rlink () {
 
-    __rlink_check_prerequires
-    [[ $? -ne 0 ]] && exit 1
+    if ! __rlink_check_prerequires
+    then
+        exit 1
+    fi
 
     echo "Starting."
 

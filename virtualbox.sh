@@ -91,9 +91,9 @@ __virtualbox_kill_apps () {
 
 __virtualbox_sdcard () {
 
-    cd "${__VIRTUALBOX_PATH}" || exit
-
     __virtualbox_kill_apps
+
+    cd "${__VIRTUALBOX_PATH}" || exit
 
     echo
     echo "Create a Virtual Machine VMDK for your SD card"

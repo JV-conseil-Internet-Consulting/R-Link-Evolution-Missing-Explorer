@@ -37,11 +37,11 @@ then call `vbox` command to follow the procedure to link your SD card to your Ub
 ## Requirements
 
 - VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for enterprise as well as home use:
-https://www.virtualbox.org
+<https://www.virtualbox.org>
 - VirtualBox 6.1.22 Oracle VM VirtualBox Extension Pack:
-https://www.virtualbox.org/wiki/Downloads
+<https://www.virtualbox.org/wiki/Downloads>
 - Ubuntu Desktop 20.04.2.0 LTS (LTS stands for long-term support — which means five years, until April 2025, of free security and maintenance updates, guaranteed):
-https://ubuntu.com/download/desktop
+<https://ubuntu.com/download/desktop>
 
 ## Example
 
