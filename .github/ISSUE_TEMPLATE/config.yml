@@ -4,6 +4,9 @@
 #
 blank_issues_enabled: false
 contact_links:
+  # - name: '💬 First Contact Name'
+  #   url: https://github.community/
+  #   about: Please ask and answer questions here.
   - name: GitHub Security Bug Bounty
     url: https://bounty.github.com/
     about: Please report security vulnerabilities here.
