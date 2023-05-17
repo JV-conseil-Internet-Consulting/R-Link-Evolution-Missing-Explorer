@@ -62,6 +62,8 @@ R-Link Evolution Missing Explorer on Ubuntu through VirtualBox VM on Mac.
 
 If this project helps you, you can offer me a cup of coffee ☕️ :-)
 
-<!-- [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R5R018CIU) -->
+<!--
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R5R018CIU)
+-->
 
 [![Become a sponsor to JV-conseil](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/JV-conseil)
